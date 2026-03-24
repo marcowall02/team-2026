@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team 2025</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --sand: #F5F0E8;
+    --warm: #EDE6D6;
+    --ink: #1A1814;
+    --muted: #7A7469;
+    --accent: #C8440A;
+    --border: rgba(26,24,20,0.12);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--sand);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  header {
+    padding: 64px 48px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    opacity: 0;
+    animation: fadeUp .7s .1s forwards;
+  }
+
+  .wordmark {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    letter-spacing: .08em;
+    color: var(--muted);
+  }
+
+  .meta {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: .06em;
+    text-align: right;
+    line-height: 1.7;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 56px 48px 64px;
+    opacity: 0;
+    animation: fadeUp .7s .25s forwards;
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 18px;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(52px, 8vw, 92px);
+    line-height: 1.0;
+    font-weight: 700;
+    max-width: 800px;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--muted);
+  }
+
+  .hero-sub {
+    margin-top: 24px;
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 420px;
+    line-height: 1.7;
+  }
+
+  /* DIVIDER */
+  .rule {
+    width: calc(100% - 96px);
+    margin: 0 48px;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* CARDS GRID */
+  .cards {
+    padding: 64px 48px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--border);
+  }
+
+  .card {
+    background: var(--sand);
+    padding: 36px 32px 32px;
+    position: relative;
+    cursor: default;
+    transition: background .25s;
+    opacity: 0;
+    animation: fadeUp .6s forwards;
+  }
+
+  .card:hover { background: var(--warm); }
+
+  .card:nth-child(1) { animation-delay: .3s; }
+  .card:nth-child(2) { animation-delay: .38s; }
+  .card:nth-child(3) { animation-delay: .46s; }
+  .card:nth-child(4) { animation-delay: .54s; }
+  .card:nth-child(5) { animation-delay: .62s; }
+
+  .card-num {
+    font-size: 11px;
+    letter-spacing: .14em;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .card-icon {
+    font-size: 28px;
+    margin-bottom: 18px;
+    display: block;
+    line-height: 1;
+  }
+
+  .card-tag {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(200, 68, 10, .09);
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+
+  .card-location {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: .05em;
+    margin-bottom: 16px;
+  }
+
+  .card-body {
+    font-size: 14px;
+    color: #4A4640;
+    line-height: 1.7;
+  }
+
+  .card-vibe {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .vibe-pill {
+    font-size: 11px;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 3px 10px;
+    background: transparent;
+    transition: border-color .2s, color .2s;
+  }
+
+  .card:hover .vibe-pill {
+    border-color: rgba(26,24,20,.22);
+    color: var(--ink);
+  }
+
+  /* WIDE CARD — spans 2 cols */
+  .card-wide {
+    grid-column: span 2;
+  }
+
+  .card-wide .card-title {
+    font-size: 28px;
+  }
+
+  .card-wide .card-body {
+    max-width: 540px;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 40px 48px 56px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp .6s .9s forwards;
+  }
+
+  .footer-note {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: .04em;
+  }
+
+  .footer-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 900px) {
+    header, .hero, footer { padding-left: 24px; padding-right: 24px; }
+    .rule { width: calc(100% - 48px); margin: 0 24px; }
+    .cards { padding: 40px 24px; grid-template-columns: 1fr 1fr; gap: 2px; }
+    .card-wide { grid-column: span 2; }
+  }
+
+  @media (max-width: 600px) {
+    .cards { grid-template-columns: 1fr; }
+    .card-wide { grid-column: span 1; }
+    .hero-title { font-size: 44px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wordmark">Team &#x2022; 2025</div>
+  <div class="meta">4 Personen &nbsp;·&nbsp; Deutschland<br>Irgendwann dieses Jahr</div>
+</header>
+
+<section class="hero">
+  <p class="hero-eyebrow">Fünf Ideen</p>
+  <h1 class="hero-title">Raus aus dem<br><em>Büro.</em></h1>
+  <p class="hero-sub">Kein Workshopformat, kein Agenda-PDF. Einfach mal was erleben, das hängen bleibt.</p>
+</section>
+
+<div class="rule"></div>
+
+<section class="cards">
+
+  <div class="card card-wide">
+    <div class="card-num">01</div>
+    <span class="card-icon">🌊</span>
+    <span class="card-tag">Natur &amp; Meer</span>
+    <h2 class="card-title">Wattwanderung auf Sylt</h2>
+    <p class="card-location">Sylt, Schleswig-Holstein</p>
+    <p class="card-body">Mit einem lokalen Wattführer durch das Weltnaturerbe — barfuß durch Schlamm, Wind im Gesicht, kein Laptop in Sicht. Danach Austern und Weißwein in einem der Strandbistros. Sylt ist teuer, aber für 4 Leute mit einem guten 4-Sterne-Hotel vollkommen im Rahmen. Und der Kontrast zur Bürowoche ist maximal.</p>
+    <div class="card-vibe">
+      <span class="vibe-pill">Freiluft</span>
+      <span class="vibe-pill">Nordsee-Feeling</span>
+      <span class="vibe-pill">Frühling / Sommer</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-num">02</div>
+    <span class="card-icon">🍷</span>
+    <span class="card-tag">Kulinarik</span>
+    <h2 class="card-title">Weingut-Tag in der Pfalz</h2>
+    <p class="card-location">Deutsche Weinstraße, Rheinland-Pfalz</p>
+    <p class="card-body">Ein gutes Weingut bucht für kleine Gruppen Privatführungen mit Kellermeister — Barrelverkostung, 5 Weine, Fragen stellen die man bei einer normalen Tour nie stellen kann. Danach Abendessen in Neustadt oder Deidesheim. Entspannt und trotzdem irgendwie besonders.</p>
+    <div class="card-vibe">
+      <span class="vibe-pill">1 Tag</span>
+      <span class="vibe-pill">Ganzjährig</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-num">03</div>
+    <span class="card-icon">🏎</span>
+    <span class="card-tag">Adrenalin</span>
+    <h2 class="card-title">Racetrack Day am Nürburgring</h2>
+    <p class="card-location">Nürburg, Eifel</p>
+    <p class="card-body">Sportwagen mieten, mit Instructor über die Nordschleife. Jeder fährt, danach Rundenzeiten vergleichen. Für vier competitive Leute vermutlich die beste Entscheidung seit dem letzten Jahresgespräch. Abends essen in der Eifel.</p>
+    <div class="card-vibe">
+      <span class="vibe-pill">1 Tag</span>
+      <span class="vibe-pill">März – Nov</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-num">04</div>
+    <span class="card-icon">🛶</span>
+    <span class="card-tag">Slow Travel</span>
+    <h2 class="card-title">Hausboot-Wochenende Mecklenburg</h2>
+    <p class="card-location">Mecklenburgische Seenplatte</p>
+    <p class="card-body">Ein Hausboot für 4 Personen, kein Führerschein nötig. Zwei Tage durch Seen und Kanäle schippern, grillen an Bord, abends irgendwo anlegen. Komplett loslassen, kein Hotel, kein Programm. Für eine kleine Gruppe geradezu gemacht.</p>
+    <div class="card-vibe">
+      <span class="vibe-pill">2 Tage</span>
+      <span class="vibe-pill">Mai – Sep</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-num">05</div>
+    <span class="card-icon">⛰</span>
+    <span class="card-tag">Outdoor</span>
+    <h2 class="card-title">Biken &amp; Hütte im Allgäu</h2>
+    <p class="card-location">Allgäu / Kleinwalsertal</p>
+    <p class="card-body">E-Bikes oder klassisch — Tagesroute mit ordentlich Höhenmetern, Mittagsstopp auf einer Alm. Abends Übernachtung in einer gut ausgestatteten Berghütte mit Halbpension. Kein Luxus, aber genau der richtige Gegenpol zur Consultingwelt.</p>
+    <div class="card-vibe">
+      <span class="vibe-pill">1–2 Tage</span>
+      <span class="vibe-pill">Sommer / Herbst</span>
+    </div>
+  </div>
+
+</section>
+
+<footer>
+  <span class="footer-note">Kein Budget-Sheet. Kein Agenda-Template. Einfach buchen.</span>
+  <div class="footer-dot"></div>
+</footer>
+
+</body>
+</html>
