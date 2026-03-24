@@ -3,19 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Team 2025</title>
+<title>Team 2026 — Ausflugideen</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
     --sand: #F5F0E8;
     --warm: #EDE6D6;
+    --warmer: #E5DBC8;
     --ink: #1A1814;
     --muted: #7A7469;
     --accent: #C8440A;
-    --border: rgba(26,24,20,0.12);
+    --accent-light: rgba(200,68,10,.08);
+    --border: rgba(26,24,20,0.10);
+    --border-dark: rgba(26,24,20,0.20);
+    --white: #FDFAF5;
   }
 
   html { scroll-behavior: smooth; }
@@ -26,54 +30,69 @@
     font-family: 'DM Sans', sans-serif;
     font-weight: 300;
     overflow-x: hidden;
+    min-height: 100vh;
   }
 
-  /* HEADER */
+  /* ── HEADER ── */
   header {
-    padding: 64px 48px 0;
+    padding: 48px 56px 0;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     opacity: 0;
-    animation: fadeUp .7s .1s forwards;
+    animation: fadeUp .6s .05s forwards;
   }
 
   .wordmark {
     font-family: 'Playfair Display', serif;
-    font-size: 15px;
-    letter-spacing: .08em;
+    font-size: 14px;
+    letter-spacing: .1em;
     color: var(--muted);
   }
 
   .meta {
-    font-size: 12px;
+    font-size: 11px;
     color: var(--muted);
-    letter-spacing: .06em;
+    letter-spacing: .07em;
     text-align: right;
-    line-height: 1.7;
+    line-height: 1.8;
   }
 
-  /* HERO */
+  /* ── HERO ── */
   .hero {
-    padding: 56px 48px 64px;
+    padding: 52px 56px 56px;
     opacity: 0;
-    animation: fadeUp .7s .25s forwards;
+    animation: fadeUp .6s .15s forwards;
   }
 
   .hero-eyebrow {
-    font-size: 11px;
-    letter-spacing: .18em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 10px;
+    letter-spacing: .22em;
     text-transform: uppercase;
     color: var(--accent);
-    margin-bottom: 18px;
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+
+  .hero-eyebrow::after {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--accent);
+    opacity: .5;
   }
 
   .hero-title {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(52px, 8vw, 92px);
+    font-size: clamp(48px, 7vw, 88px);
     line-height: 1.0;
     font-weight: 700;
-    max-width: 800px;
+    max-width: 780px;
+    letter-spacing: -.01em;
   }
 
   .hero-title em {
@@ -83,262 +102,819 @@
   }
 
   .hero-sub {
-    margin-top: 24px;
+    margin-top: 22px;
     font-size: 15px;
     color: var(--muted);
-    max-width: 420px;
-    line-height: 1.7;
+    max-width: 400px;
+    line-height: 1.75;
   }
 
-  /* DIVIDER */
+  /* ── RULE ── */
   .rule {
-    width: calc(100% - 96px);
-    margin: 0 48px;
+    width: calc(100% - 112px);
+    margin: 0 56px;
     height: 1px;
     background: var(--border);
   }
 
-  /* CARDS GRID */
+  /* ── CARDS GRID ── */
+  .cards-wrap {
+    padding: 56px 56px 40px;
+  }
+
   .cards {
-    padding: 64px 48px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
+    gap: 3px;
     background: var(--border);
+    border: 3px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
   }
 
   .card {
     background: var(--sand);
-    padding: 36px 32px 32px;
+    padding: 32px 28px 28px;
     position: relative;
     cursor: default;
-    transition: background .25s;
+    transition: background .3s;
     opacity: 0;
-    animation: fadeUp .6s forwards;
+    animation: fadeUp .5s forwards;
+    display: flex;
+    flex-direction: column;
   }
 
   .card:hover { background: var(--warm); }
+  .card:nth-child(1) { animation-delay: .2s; }
+  .card:nth-child(2) { animation-delay: .27s; }
+  .card:nth-child(3) { animation-delay: .34s; }
+  .card:nth-child(4) { animation-delay: .41s; }
+  .card:nth-child(5) { animation-delay: .48s; }
+  .card:nth-child(n+6) { animation-delay: .55s; }
 
-  .card:nth-child(1) { animation-delay: .3s; }
-  .card:nth-child(2) { animation-delay: .38s; }
-  .card:nth-child(3) { animation-delay: .46s; }
-  .card:nth-child(4) { animation-delay: .54s; }
-  .card:nth-child(5) { animation-delay: .62s; }
+  .card-top { flex: 1; }
 
   .card-num {
-    font-size: 11px;
-    letter-spacing: .14em;
+    font-size: 10px;
+    letter-spacing: .16em;
     color: var(--muted);
-    margin-bottom: 20px;
+    margin-bottom: 18px;
+    font-weight: 400;
   }
 
   .card-icon {
-    font-size: 28px;
-    margin-bottom: 18px;
+    font-size: 26px;
+    margin-bottom: 16px;
     display: block;
     line-height: 1;
   }
 
   .card-tag {
     display: inline-block;
-    font-size: 10px;
-    letter-spacing: .12em;
+    font-size: 9px;
+    letter-spacing: .14em;
     text-transform: uppercase;
     color: var(--accent);
-    background: rgba(200, 68, 10, .09);
+    background: var(--accent-light);
     padding: 3px 10px;
     border-radius: 20px;
     margin-bottom: 14px;
-    font-weight: 500;
+    font-weight: 600;
   }
 
   .card-title {
     font-family: 'Playfair Display', serif;
-    font-size: 22px;
+    font-size: 21px;
     font-weight: 700;
     line-height: 1.2;
-    margin-bottom: 6px;
+    margin-bottom: 5px;
   }
 
   .card-location {
-    font-size: 12px;
+    font-size: 11px;
     color: var(--muted);
-    letter-spacing: .05em;
-    margin-bottom: 16px;
+    letter-spacing: .06em;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .card-location::before {
+    content: '↗';
+    font-size: 10px;
+    opacity: .5;
   }
 
   .card-body {
-    font-size: 14px;
+    font-size: 13.5px;
     color: #4A4640;
-    line-height: 1.7;
+    line-height: 1.75;
   }
 
   .card-vibe {
-    margin-top: 20px;
+    margin-top: 18px;
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 5px;
   }
 
   .vibe-pill {
-    font-size: 11px;
+    font-size: 10px;
     color: var(--muted);
     border: 1px solid var(--border);
     border-radius: 20px;
-    padding: 3px 10px;
+    padding: 3px 9px;
     background: transparent;
     transition: border-color .2s, color .2s;
   }
 
   .card:hover .vibe-pill {
-    border-color: rgba(26,24,20,.22);
+    border-color: var(--border-dark);
     color: var(--ink);
   }
 
-  /* WIDE CARD — spans 2 cols */
-  .card-wide {
-    grid-column: span 2;
+  /* ── LIKE BUTTON ── */
+  .card-footer {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
-  .card-wide .card-title {
-    font-size: 28px;
+  .like-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 13px 5px 10px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: var(--muted);
+    transition: all .2s;
+    font-weight: 400;
   }
 
-  .card-wide .card-body {
+  .like-btn:hover {
+    border-color: #e05a2b;
+    color: #e05a2b;
+    background: rgba(200,68,10,.04);
+  }
+
+  .like-btn.liked {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-light);
+    font-weight: 500;
+  }
+
+  .like-btn .heart {
+    font-size: 14px;
+    transition: transform .2s;
+  }
+
+  .like-btn:hover .heart,
+  .like-btn.liked .heart {
+    transform: scale(1.2);
+  }
+
+  .like-count { font-variant-numeric: tabular-nums; }
+
+  /* ── WIDE CARD ── */
+  .card-wide { grid-column: span 2; }
+  .card-wide .card-title { font-size: 26px; }
+  .card-wide .card-body { max-width: 520px; }
+
+  /* ── ADD TRIP BUTTON ── */
+  .add-wrap {
+    padding: 0 56px 64px;
+    opacity: 0;
+    animation: fadeUp .5s .6s forwards;
+  }
+
+  .add-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: none;
+    border: 1px dashed var(--border-dark);
+    border-radius: 4px;
+    padding: 20px 28px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    width: 100%;
+    text-align: left;
+    transition: all .25s;
+    font-weight: 400;
+    letter-spacing: .02em;
+  }
+
+  .add-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-light);
+  }
+
+  .add-btn .plus {
+    width: 28px;
+    height: 28px;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    transition: transform .2s;
+  }
+
+  .add-btn:hover .plus { transform: rotate(90deg); }
+
+  /* ── MODAL ── */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(26,24,20,.55);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s;
+  }
+
+  .modal-backdrop.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .modal {
+    background: var(--white);
+    border-radius: 6px;
+    width: 100%;
     max-width: 540px;
+    padding: 40px;
+    transform: translateY(16px);
+    transition: transform .25s;
+    max-height: 90vh;
+    overflow-y: auto;
   }
 
-  /* FOOTER */
+  .modal-backdrop.open .modal { transform: translateY(0); }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 32px;
+  }
+
+  .modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .modal-title em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--muted);
+  }
+
+  .modal-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 22px;
+    line-height: 1;
+    padding: 2px;
+    transition: color .2s;
+  }
+
+  .modal-close:hover { color: var(--ink); }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  label {
+    display: block;
+    font-size: 10px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 7px;
+  }
+
+  input, textarea, select {
+    width: 100%;
+    background: var(--sand);
+    border: 1px solid var(--border-dark);
+    border-radius: 4px;
+    padding: 11px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    font-weight: 300;
+    outline: none;
+    transition: border-color .2s;
+    appearance: none;
+  }
+
+  input:focus, textarea:focus, select:focus {
+    border-color: var(--accent);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+    line-height: 1.65;
+  }
+
+  .pills-input-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .pill-check {
+    display: none;
+  }
+
+  .pill-label {
+    font-size: 11px;
+    color: var(--muted);
+    border: 1px solid var(--border-dark);
+    border-radius: 20px;
+    padding: 4px 12px;
+    cursor: pointer;
+    transition: all .15s;
+    user-select: none;
+  }
+
+  .pill-check:checked + .pill-label {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-light);
+  }
+
+  .icon-grid {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+
+  .icon-opt {
+    display: none;
+  }
+
+  .icon-opt-label {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    border: 1px solid var(--border-dark);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all .15s;
+    user-select: none;
+  }
+
+  .icon-opt:checked + .icon-opt-label {
+    border-color: var(--accent);
+    background: var(--accent-light);
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--ink);
+    color: var(--sand);
+    border: none;
+    border-radius: 4px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: .04em;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background .2s, transform .1s;
+  }
+
+  .submit-btn:hover { background: #2d2a25; }
+  .submit-btn:active { transform: scale(.99); }
+
+  /* ── FOOTER ── */
   footer {
-    padding: 40px 48px 56px;
+    padding: 32px 56px 48px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-top: 1px solid var(--border);
     opacity: 0;
-    animation: fadeUp .6s .9s forwards;
+    animation: fadeUp .5s .7s forwards;
   }
 
   .footer-note {
-    font-size: 12px;
+    font-size: 11px;
     color: var(--muted);
-    letter-spacing: .04em;
+    letter-spacing: .05em;
   }
 
   .footer-dot {
-    width: 6px;
-    height: 6px;
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
     background: var(--accent);
   }
 
+  /* ── ANIMATIONS ── */
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(18px); }
+    from { opacity: 0; transform: translateY(14px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 
+  @keyframes pop {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.35); }
+    70%  { transform: scale(.9); }
+    100% { transform: scale(1); }
+  }
+
+  .heart.pop { animation: pop .3s ease; }
+
+  /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
-    header, .hero, footer { padding-left: 24px; padding-right: 24px; }
-    .rule { width: calc(100% - 48px); margin: 0 24px; }
-    .cards { padding: 40px 24px; grid-template-columns: 1fr 1fr; gap: 2px; }
+    header, .hero, .rule, .add-wrap, footer { padding-left: 28px; padding-right: 28px; }
+    .rule { width: calc(100% - 56px); margin: 0 28px; }
+    .cards-wrap { padding: 40px 28px 32px; }
+    .cards { grid-template-columns: 1fr 1fr; }
     .card-wide { grid-column: span 2; }
   }
 
   @media (max-width: 600px) {
+    header, .hero, .rule, .add-wrap, footer { padding-left: 20px; padding-right: 20px; }
+    .cards-wrap { padding: 28px 20px 24px; }
     .cards { grid-template-columns: 1fr; }
     .card-wide { grid-column: span 1; }
-    .hero-title { font-size: 44px; }
+    .card-wide .card-title { font-size: 22px; }
+    .modal { padding: 28px 24px; }
+    .form-row { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="wordmark">Team &#x2022; 2025</div>
-  <div class="meta">4 Personen &nbsp;·&nbsp; Deutschland<br>Irgendwann dieses Jahr</div>
+  <div class="wordmark">Team &middot; 2026</div>
+  <div class="meta" id="trip-count-meta">5 Ideen &nbsp;&middot;&nbsp; Deutschland</div>
 </header>
 
 <section class="hero">
-  <p class="hero-eyebrow">Fünf Ideen</p>
+  <p class="hero-eyebrow">Ausflug Ideen</p>
   <h1 class="hero-title">Raus aus dem<br><em>Büro.</em></h1>
   <p class="hero-sub">Kein Workshopformat, kein Agenda-PDF. Einfach mal was erleben, das hängen bleibt.</p>
 </section>
 
 <div class="rule"></div>
 
-<section class="cards">
-
-  <div class="card card-wide">
-    <div class="card-num">01</div>
-    <span class="card-icon">🌊</span>
-    <span class="card-tag">Natur &amp; Meer</span>
-    <h2 class="card-title">Wattwanderung auf Sylt</h2>
-    <p class="card-location">Sylt, Schleswig-Holstein</p>
-    <p class="card-body">Mit einem lokalen Wattführer durch das Weltnaturerbe — barfuß durch Schlamm, Wind im Gesicht, kein Laptop in Sicht. Danach Austern und Weißwein in einem der Strandbistros. Sylt ist teuer, aber für 4 Leute mit einem guten 4-Sterne-Hotel vollkommen im Rahmen. Und der Kontrast zur Bürowoche ist maximal.</p>
-    <div class="card-vibe">
-      <span class="vibe-pill">Freiluft</span>
-      <span class="vibe-pill">Nordsee-Feeling</span>
-      <span class="vibe-pill">Frühling / Sommer</span>
-    </div>
+<section class="cards-wrap">
+  <div class="cards" id="cards-grid">
+    <!-- Cards rendered by JS -->
   </div>
-
-  <div class="card">
-    <div class="card-num">02</div>
-    <span class="card-icon">🍷</span>
-    <span class="card-tag">Kulinarik</span>
-    <h2 class="card-title">Weingut-Tag in der Pfalz</h2>
-    <p class="card-location">Deutsche Weinstraße, Rheinland-Pfalz</p>
-    <p class="card-body">Ein gutes Weingut bucht für kleine Gruppen Privatführungen mit Kellermeister — Barrelverkostung, 5 Weine, Fragen stellen die man bei einer normalen Tour nie stellen kann. Danach Abendessen in Neustadt oder Deidesheim. Entspannt und trotzdem irgendwie besonders.</p>
-    <div class="card-vibe">
-      <span class="vibe-pill">1 Tag</span>
-      <span class="vibe-pill">Ganzjährig</span>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-num">03</div>
-    <span class="card-icon">🏎</span>
-    <span class="card-tag">Adrenalin</span>
-    <h2 class="card-title">Racetrack Day am Nürburgring</h2>
-    <p class="card-location">Nürburg, Eifel</p>
-    <p class="card-body">Sportwagen mieten, mit Instructor über die Nordschleife. Jeder fährt, danach Rundenzeiten vergleichen. Für vier competitive Leute vermutlich die beste Entscheidung seit dem letzten Jahresgespräch. Abends essen in der Eifel.</p>
-    <div class="card-vibe">
-      <span class="vibe-pill">1 Tag</span>
-      <span class="vibe-pill">März – Nov</span>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-num">04</div>
-    <span class="card-icon">🛶</span>
-    <span class="card-tag">Slow Travel</span>
-    <h2 class="card-title">Hausboot-Wochenende Mecklenburg</h2>
-    <p class="card-location">Mecklenburgische Seenplatte</p>
-    <p class="card-body">Ein Hausboot für 4 Personen, kein Führerschein nötig. Zwei Tage durch Seen und Kanäle schippern, grillen an Bord, abends irgendwo anlegen. Komplett loslassen, kein Hotel, kein Programm. Für eine kleine Gruppe geradezu gemacht.</p>
-    <div class="card-vibe">
-      <span class="vibe-pill">2 Tage</span>
-      <span class="vibe-pill">Mai – Sep</span>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-num">05</div>
-    <span class="card-icon">⛰</span>
-    <span class="card-tag">Outdoor</span>
-    <h2 class="card-title">Biken &amp; Hütte im Allgäu</h2>
-    <p class="card-location">Allgäu / Kleinwalsertal</p>
-    <p class="card-body">E-Bikes oder klassisch — Tagesroute mit ordentlich Höhenmetern, Mittagsstopp auf einer Alm. Abends Übernachtung in einer gut ausgestatteten Berghütte mit Halbpension. Kein Luxus, aber genau der richtige Gegenpol zur Consultingwelt.</p>
-    <div class="card-vibe">
-      <span class="vibe-pill">1–2 Tage</span>
-      <span class="vibe-pill">Sommer / Herbst</span>
-    </div>
-  </div>
-
 </section>
+
+<div class="add-wrap">
+  <button class="add-btn" onclick="openModal()">
+    <span class="plus">+</span>
+    Eigene Idee hinzufügen
+  </button>
+</div>
 
 <footer>
   <span class="footer-note">Kein Budget-Sheet. Kein Agenda-Template. Einfach buchen.</span>
   <div class="footer-dot"></div>
 </footer>
+
+<!-- MODAL -->
+<div class="modal-backdrop" id="modal" onclick="handleBackdropClick(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title">Neue<br><em>Idee</em></h2>
+      <button class="modal-close" onclick="closeModal()">&#x2715;</button>
+    </div>
+
+    <form id="trip-form" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Titel</label>
+          <input type="text" id="f-title" placeholder="z.B. Surfkurs an der Nordsee" required maxlength="60">
+        </div>
+        <div class="form-group">
+          <label>Ort</label>
+          <input type="text" id="f-location" placeholder="z.B. Westerland, Sylt" required maxlength="60">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Kategorie</label>
+        <input type="text" id="f-tag" placeholder="z.B. Kulinarik, Adrenalin, Natur …" required maxlength="30">
+      </div>
+
+      <div class="form-group">
+        <label>Beschreibung</label>
+        <textarea id="f-body" placeholder="Was macht diese Idee besonders? Warum würde es dem Team gefallen?" required maxlength="500"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Emoji / Icon</label>
+        <div class="icon-grid">
+          <input class="icon-opt" type="radio" name="icon" id="ic1" value="🌊" checked>
+          <label class="icon-opt-label" for="ic1">🌊</label>
+          <input class="icon-opt" type="radio" name="icon" id="ic2" value="🍷">
+          <label class="icon-opt-label" for="ic2">🍷</label>
+          <input class="icon-opt" type="radio" name="icon" id="ic3" value="🏎">
+          <label class="icon-opt-label" for="ic3">🏎</label>
+          <input class="icon-opt" type="radio" name="icon" id="ic4" value="🛶">
+          <label class="icon-opt-label" for="ic4">🛶</label>
+          <input class="icon-opt" type="radio" name="icon" id="ic5" value="⛰">
+          <label class="icon-opt-label" for="ic5">⛰</label>
+          <input class="icon-opt" type="radio" name="icon" id="ic6" value="🎿">
+          <label class="icon-opt-label" for="ic6">🎿</label>
+          <input class="icon-opt" type="radio" name="icon" id="ic7" value="🎸">
+          <label class="icon-opt-label" for="ic7">🎸</label>
+          <input class="icon-opt" type="radio" name="icon" id="ic8" value="🍕">
+          <label class="icon-opt-label" for="ic8">🍕</label>
+          <input class="icon-opt" type="radio" name="icon" id="ic9" value="🏄">
+          <label class="icon-opt-label" for="ic9">🏄</label>
+          <input class="icon-opt" type="radio" name="icon" id="ic10" value="🎯">
+          <label class="icon-opt-label" for="ic10">🎯</label>
+          <input class="icon-opt" type="radio" name="icon" id="ic11" value="🧗">
+          <label class="icon-opt-label" for="ic11">🧗</label>
+          <input class="icon-opt" type="radio" name="icon" id="ic12" value="🌿">
+          <label class="icon-opt-label" for="ic12">🌿</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Vibes (mehrere möglich)</label>
+        <div class="pills-input-wrap">
+          <input class="pill-check" type="checkbox" id="v1" value="Freiluft"><label class="pill-label" for="v1">Freiluft</label>
+          <input class="pill-check" type="checkbox" id="v2" value="1 Tag"><label class="pill-label" for="v2">1 Tag</label>
+          <input class="pill-check" type="checkbox" id="v3" value="2 Tage"><label class="pill-label" for="v3">2 Tage</label>
+          <input class="pill-check" type="checkbox" id="v4" value="Ganzjährig"><label class="pill-label" for="v4">Ganzjährig</label>
+          <input class="pill-check" type="checkbox" id="v5" value="Sommer"><label class="pill-label" for="v5">Sommer</label>
+          <input class="pill-check" type="checkbox" id="v6" value="Frühling"><label class="pill-label" for="v6">Frühling</label>
+          <input class="pill-check" type="checkbox" id="v7" value="Herbst"><label class="pill-label" for="v7">Herbst</label>
+          <input class="pill-check" type="checkbox" id="v8" value="Adrenalin"><label class="pill-label" for="v8">Adrenalin</label>
+          <input class="pill-check" type="checkbox" id="v9" value="Entspannt"><label class="pill-label" for="v9">Entspannt</label>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn">Idee einreichen &rarr;</button>
+    </form>
+  </div>
+</div>
+
+<script>
+// ── DEFAULT TRIPS ──────────────────────────────────────────
+const DEFAULT_TRIPS = [
+  {
+    id: 'default-1',
+    icon: '🌊',
+    tag: 'Natur & Meer',
+    title: 'Wattwanderung auf Sylt',
+    location: 'Sylt, Schleswig-Holstein',
+    body: 'Mit einem lokalen Wattführer durch das Weltnaturerbe — barfuß durch Schlamm, Wind im Gesicht, kein Laptop in Sicht. Danach Austern und Weißwein in einem der Strandbistros. Sylt ist teuer, aber für 4 Leute mit einem guten 4-Sterne-Hotel vollkommen im Rahmen. Und der Kontrast zur Bürowoche ist maximal.',
+    vibes: ['Freiluft', 'Nordsee-Feeling', 'Frühling / Sommer'],
+    wide: true,
+  },
+  {
+    id: 'default-2',
+    icon: '🍷',
+    tag: 'Kulinarik',
+    title: 'Weingut-Tag in der Pfalz',
+    location: 'Deutsche Weinstraße, Rheinland-Pfalz',
+    body: 'Ein gutes Weingut bucht für kleine Gruppen Privatführungen mit Kellermeister — Barrelverkostung, 5 Weine, Fragen stellen die man bei einer normalen Tour nie stellen kann. Danach Abendessen in Neustadt oder Deidesheim. Entspannt und trotzdem irgendwie besonders.',
+    vibes: ['1 Tag', 'Ganzjährig'],
+    wide: false,
+  },
+  {
+    id: 'default-3',
+    icon: '🏎',
+    tag: 'Adrenalin',
+    title: 'Racetrack Day am Nürburgring',
+    location: 'Nürburg, Eifel',
+    body: 'Sportwagen mieten, mit Instructor über die Nordschleife. Jeder fährt, danach Rundenzeiten vergleichen. Für vier competitive Leute vermutlich die beste Entscheidung seit dem letzten Jahresgespräch. Abends essen in der Eifel.',
+    vibes: ['1 Tag', 'März – Nov'],
+    wide: false,
+  },
+  {
+    id: 'default-4',
+    icon: '🛶',
+    tag: 'Slow Travel',
+    title: 'Hausboot-Wochenende Mecklenburg',
+    location: 'Mecklenburgische Seenplatte',
+    body: 'Ein Hausboot für 4 Personen, kein Führerschein nötig. Zwei Tage durch Seen und Kanäle schippern, grillen an Bord, abends irgendwo anlegen. Komplett loslassen, kein Hotel, kein Programm. Für eine kleine Gruppe geradezu gemacht.',
+    vibes: ['2 Tage', 'Mai – Sep'],
+    wide: false,
+  },
+  {
+    id: 'default-5',
+    icon: '⛰',
+    tag: 'Outdoor',
+    title: 'Biken & Hütte im Allgäu',
+    location: 'Allgäu / Kleinwalsertal',
+    body: 'E-Bikes oder klassisch — Tagesroute mit ordentlich Höhenmetern, Mittagsstopp auf einer Alm. Abends Übernachtung in einer gut ausgestatteten Berghütte mit Halbpension. Kein Luxus, aber genau der richtige Gegenpol zur Consultingwelt.',
+    vibes: ['1–2 Tage', 'Sommer / Herbst'],
+    wide: false,
+  },
+];
+
+// ── STATE ─────────────────────────────────────────────────
+function loadTrips() {
+  try {
+    const stored = localStorage.getItem('team2026-trips');
+    return stored ? JSON.parse(stored) : DEFAULT_TRIPS;
+  } catch { return DEFAULT_TRIPS; }
+}
+
+function saveTrips(trips) {
+  localStorage.setItem('team2026-trips', JSON.stringify(trips));
+}
+
+function loadLikes() {
+  try {
+    return JSON.parse(localStorage.getItem('team2026-likes') || '{}');
+  } catch { return {}; }
+}
+
+function saveLikes(likes) {
+  localStorage.setItem('team2026-likes', JSON.stringify(likes));
+}
+
+function loadMyLikes() {
+  try {
+    return JSON.parse(localStorage.getItem('team2026-my-likes') || '[]');
+  } catch { return []; }
+}
+
+function saveMyLikes(myLikes) {
+  localStorage.setItem('team2026-my-likes', JSON.stringify(myLikes));
+}
+
+let trips = loadTrips();
+let likes = loadLikes();
+let myLikes = loadMyLikes();
+
+// ── RENDER ────────────────────────────────────────────────
+function renderCards() {
+  const grid = document.getElementById('cards-grid');
+  grid.innerHTML = '';
+
+  trips.forEach((trip, i) => {
+    const likeCount = likes[trip.id] || 0;
+    const liked = myLikes.includes(trip.id);
+
+    const card = document.createElement('div');
+    card.className = 'card' + (trip.wide ? ' card-wide' : '');
+    card.style.animationDelay = (0.2 + i * 0.07) + 's';
+
+    const vibesHtml = (trip.vibes || [])
+      .map(v => `<span class="vibe-pill">${v}</span>`)
+      .join('');
+
+    const numStr = String(i + 1).padStart(2, '0');
+
+    card.innerHTML = `
+      <div class="card-top">
+        <div class="card-num">${numStr}</div>
+        <span class="card-icon">${trip.icon}</span>
+        <span class="card-tag">${trip.tag}</span>
+        <h2 class="card-title">${trip.title}</h2>
+        <p class="card-location">${trip.location}</p>
+        <p class="card-body">${trip.body}</p>
+        <div class="card-vibe">${vibesHtml}</div>
+      </div>
+      <div class="card-footer">
+        <button class="like-btn ${liked ? 'liked' : ''}" onclick="toggleLike('${trip.id}', this)">
+          <span class="heart">${liked ? '♥' : '♡'}</span>
+          <span class="like-count">${likeCount > 0 ? likeCount : ''}</span>
+          <span>${liked ? 'Gefällt mir' : 'Gefällt mir'}</span>
+        </button>
+      </div>
+    `;
+
+    grid.appendChild(card);
+  });
+
+  // update meta
+  document.getElementById('trip-count-meta').textContent =
+    trips.length + ' Ideen\u00a0\u00b7\u00a0Deutschland';
+}
+
+// ── LIKE ──────────────────────────────────────────────────
+function toggleLike(id, btn) {
+  const heart = btn.querySelector('.heart');
+  const countEl = btn.querySelector('.like-count');
+  const isLiked = myLikes.includes(id);
+
+  if (isLiked) {
+    myLikes = myLikes.filter(x => x !== id);
+    likes[id] = Math.max((likes[id] || 1) - 1, 0);
+    btn.classList.remove('liked');
+    heart.textContent = '♡';
+  } else {
+    myLikes.push(id);
+    likes[id] = (likes[id] || 0) + 1;
+    btn.classList.add('liked');
+    heart.textContent = '♥';
+    heart.classList.add('pop');
+    setTimeout(() => heart.classList.remove('pop'), 300);
+  }
+
+  countEl.textContent = likes[id] > 0 ? likes[id] : '';
+  saveLikes(likes);
+  saveMyLikes(myLikes);
+}
+
+// ── MODAL ─────────────────────────────────────────────────
+function openModal() {
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function handleBackdropClick(e) {
+  if (e.target === document.getElementById('modal')) closeModal();
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+// ── SUBMIT ────────────────────────────────────────────────
+function handleSubmit(e) {
+  e.preventDefault();
+
+  const icon = document.querySelector('input[name="icon"]:checked')?.value || '✈️';
+  const vibes = [...document.querySelectorAll('.pill-check:checked')].map(el => el.value);
+
+  const newTrip = {
+    id: 'user-' + Date.now(),
+    icon,
+    tag: document.getElementById('f-tag').value.trim(),
+    title: document.getElementById('f-title').value.trim(),
+    location: document.getElementById('f-location').value.trim(),
+    body: document.getElementById('f-body').value.trim(),
+    vibes,
+    wide: false,
+  };
+
+  trips.push(newTrip);
+  saveTrips(trips);
+  renderCards();
+  closeModal();
+  e.target.reset();
+
+  // scroll to new card
+  setTimeout(() => {
+    const cards = document.querySelectorAll('.card');
+    const last = cards[cards.length - 1];
+    last?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 100);
+}
+
+// ── INIT ──────────────────────────────────────────────────
+renderCards();
+</script>
 
 </body>
 </html>
