@@ -112,7 +112,7 @@ body {
 .hero-bg {
   position: absolute;
   inset: 0;
-  background-image: url('https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1920&q=85&auto=format&fit=crop');
+  background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=85&auto=format&fit=crop');
   background-size: cover;
   background-position: center 40%;
   transform: scale(1.04);
@@ -399,17 +399,14 @@ body {
   align-items: center;
   justify-content: center;
   background: none;
-  border: none;
+  border: 1px solid var(--sep);
   cursor: pointer;
   color: var(--muted);
-  padding: 5px;
+  padding: 5px 7px;
   border-radius: 8px;
-  transition: color .15s, background .15s;
-  opacity: 0;
-  transition: opacity .2s, color .15s, background .15s;
+  transition: color .15s, background .15s, border-color .15s;
 }
-.card:hover .del-btn { opacity: 1; }
-.del-btn:hover { color: #dc2626; background: rgba(220,38,38,.08); }
+.del-btn:hover { color: #dc2626; background: rgba(220,38,38,.08); border-color: rgba(220,38,38,.2); }
 
 @keyframes pop {
   0%   { transform: scale(1); }
