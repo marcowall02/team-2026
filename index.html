@@ -660,28 +660,46 @@
   </div>
 </div>
 
-<script>
+<!-- Firebase SDK -->
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getDatabase, ref, onValue, push, set, runTransaction } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDJ9-KjHYuYJSxDp0Jw2OrSB_SmUmG7CsE",
+  authDomain: "team-2026-a2f23.firebaseapp.com",
+  projectId: "team-2026-a2f23",
+  storageBucket: "team-2026-a2f23.firebasestorage.app",
+  messagingSenderId: "96362063074",
+  appId: "1:96362063074:web:19a11429256196ec156abb",
+  databaseURL: "https://team-2026-a2f23-default-rtdb.europe-west1.firebasedatabase.app"
+};
+
+const app = initializeApp(firebaseConfig);
+const db  = getDatabase(app);
+
 const DEFAULTS = [
-  { id:'d1', icon:'🌊', tag:'Natur & Meer', title:'Wattwanderung auf Sylt', loc:'Sylt, Schleswig-Holstein', body:'Mit einem lokalen Wattführer durch das Weltnaturerbe — barfuß durch Schlamm, Wind im Gesicht, kein Laptop in Sicht. Danach Austern und Weißwein in einem der Strandbistros. Sylt ist teuer, aber für 4 Leute mit einem guten 4-Sterne-Hotel vollkommen im Rahmen. Und der Kontrast zur Bürowoche ist maximal.', vibes:['Freiluft','Nordsee-Feeling','Frühling / Sommer'], wide:true },
-  { id:'d2', icon:'🍷', tag:'Kulinarik', title:'Weingut-Tag in der Pfalz', loc:'Deutsche Weinstraße, Rheinland-Pfalz', body:'Ein gutes Weingut bucht für kleine Gruppen Privatführungen mit Kellermeister — Barrelverkostung, 5 Weine, Fragen stellen die man bei einer normalen Tour nie stellen kann. Danach Abendessen in Neustadt oder Deidesheim.', vibes:['1 Tag','Ganzjährig'], wide:false },
-  { id:'d3', icon:'🏎', tag:'Adrenalin', title:'Racetrack Day am Nürburgring', loc:'Nürburg, Eifel', body:'Sportwagen mieten, mit Instructor über die Nordschleife. Jeder fährt, danach Rundenzeiten vergleichen. Für vier competitive Leute vermutlich die beste Entscheidung seit dem letzten Jahresgespräch.', vibes:['1 Tag','März – Nov'], wide:false },
-  { id:'d4', icon:'🛶', tag:'Slow Travel', title:'Hausboot-Wochenende Mecklenburg', loc:'Mecklenburgische Seenplatte', body:'Ein Hausboot für 4 Personen, kein Führerschein nötig. Zwei Tage durch Seen und Kanäle schippern, grillen an Bord, abends irgendwo anlegen. Komplett loslassen, kein Hotel, kein Programm.', vibes:['2 Tage','Mai – Sep'], wide:false },
-  { id:'d5', icon:'⛰', tag:'Outdoor', title:'Biken & Hütte im Allgäu', loc:'Allgäu / Kleinwalsertal', body:'E-Bikes oder klassisch — Tagesroute mit ordentlich Höhenmetern, Mittagsstopp auf einer Alm. Abends Übernachtung in einer gut ausgestatteten Berghütte mit Halbpension.', vibes:['1–2 Tage','Sommer / Herbst'], wide:false },
+  { id:'d1', icon:'🌊', tag:'Natur & Meer', title:'Wattwanderung auf Sylt', loc:'Sylt, Schleswig-Holstein', body:'Mit einem lokalen Wattführer durch das Weltnaturerbe — barfuß durch Schlamm, Wind im Gesicht, kein Laptop in Sicht. Danach Austern und Weißwein in einem der Strandbistros. Sylt ist teuer, aber für 4 Leute mit einem guten 4-Sterne-Hotel vollkommen im Rahmen. Und der Kontrast zur Bürowoche ist maximal.', vibes:['Freiluft','Nordsee-Feeling','Frühling / Sommer'] },
+  { id:'d2', icon:'🍷', tag:'Kulinarik', title:'Weingut-Tag in der Pfalz', loc:'Deutsche Weinstraße, Rheinland-Pfalz', body:'Ein gutes Weingut bucht für kleine Gruppen Privatführungen mit Kellermeister — Barrelverkostung, 5 Weine, Fragen stellen die man bei einer normalen Tour nie stellen kann. Danach Abendessen in Neustadt oder Deidesheim.', vibes:['1 Tag','Ganzjährig'] },
+  { id:'d3', icon:'🏎', tag:'Adrenalin', title:'Racetrack Day am Nürburgring', loc:'Nürburg, Eifel', body:'Sportwagen mieten, mit Instructor über die Nordschleife. Jeder fährt, danach Rundenzeiten vergleichen. Für vier competitive Leute vermutlich die beste Entscheidung seit dem letzten Jahresgespräch.', vibes:['1 Tag','März – Nov'] },
+  { id:'d4', icon:'🛶', tag:'Slow Travel', title:'Hausboot-Wochenende Mecklenburg', loc:'Mecklenburgische Seenplatte', body:'Ein Hausboot für 4 Personen, kein Führerschein nötig. Zwei Tage durch Seen und Kanäle schippern, grillen an Bord, abends irgendwo anlegen. Komplett loslassen, kein Hotel, kein Programm.', vibes:['2 Tage','Mai – Sep'] },
+  { id:'d5', icon:'⛰', tag:'Outdoor', title:'Biken & Hütte im Allgäu', loc:'Allgäu / Kleinwalsertal', body:'E-Bikes oder klassisch — Tagesroute mit ordentlich Höhenmetern, Mittagsstopp auf einer Alm. Abends Übernachtung in einer gut ausgestatteten Berghütte mit Halbpension.', vibes:['1–2 Tage','Sommer / Herbst'] },
 ];
 
-const load = k => { try { return JSON.parse(localStorage.getItem(k)) } catch { return null } };
-const save = (k,v) => localStorage.setItem(k, JSON.stringify(v));
+// my liked IDs — stays local per user
+const myLikes = new Set(JSON.parse(localStorage.getItem('t26-my') || '[]'));
+const saveMyLikes = () => localStorage.setItem('t26-my', JSON.stringify([...myLikes]));
 
-let trips   = load('t26-trips')   || DEFAULTS;
-let likes   = load('t26-likes')   || {};
-let myLikes = load('t26-my')      || [];
+let trips = [];
+let likeCounts = {};
 
+// ── RENDER ──────────────────────────────────────────────
 function render() {
   const g = document.getElementById('grid');
   g.innerHTML = '';
   trips.forEach((t, i) => {
-    const n    = likes[t.id] || 0;
-    const liked = myLikes.includes(t.id);
+    const n     = likeCounts[t.id] || 0;
+    const liked = myLikes.has(t.id);
     const c = document.createElement('div');
     c.className = 'card';
     c.style.animationDelay = (.18 + i * .06) + 's';
@@ -693,61 +711,71 @@ function render() {
       <div class="card-body">${t.body}</div>
       <div class="card-pills">${(t.vibes||[]).map(v=>`<span class="pill">${v}</span>`).join('')}</div>
       <div class="card-foot">
-        <button class="like-btn ${liked?'liked':''}" onclick="like('${t.id}',this)">
+        <button class="like-btn ${liked?'liked':''}" data-id="${t.id}">
           <span class="h">${liked?'♥':'♡'}</span>
-          <span>${n>0?n+' ':''}${liked?'Gefällt mir':'Gefällt mir'}</span>
+          <span class="lc">${n > 0 ? n + ' ' : ''}Gefällt mir</span>
         </button>
       </div>`;
+    c.querySelector('.like-btn').addEventListener('click', () => toggleLike(t.id));
     g.appendChild(c);
   });
   document.getElementById('nav-count').textContent = trips.length + ' Ideen';
 }
 
-function like(id, btn) {
-  const h = btn.querySelector('.h');
-  const isLiked = myLikes.includes(id);
-  if (isLiked) {
-    myLikes = myLikes.filter(x => x !== id);
-    likes[id] = Math.max((likes[id]||1)-1, 0);
+// ── LIKE ────────────────────────────────────────────────
+function toggleLike(id) {
+  const liked = myLikes.has(id);
+  if (liked) {
+    myLikes.delete(id);
   } else {
-    myLikes.push(id);
-    likes[id] = (likes[id]||0)+1;
-    h.classList.add('pop');
-    setTimeout(()=>h.classList.remove('pop'), 300);
+    myLikes.add(id);
   }
-  save('t26-likes', likes);
-  save('t26-my', myLikes);
-  render();
+  saveMyLikes();
+  // atomic increment/decrement in Firebase
+  runTransaction(ref(db, 'likes/' + id), val => (val || 0) + (liked ? -1 : 1));
 }
 
-function openSheet()  { document.getElementById('backdrop').classList.add('open'); document.body.style.overflow='hidden'; }
-function closeSheet() { document.getElementById('backdrop').classList.remove('open'); document.body.style.overflow=''; }
-function onBackdrop(e) { if (e.target===document.getElementById('backdrop')) closeSheet(); }
+// ── MODAL ───────────────────────────────────────────────
+window.openSheet  = () => { document.getElementById('backdrop').classList.add('open'); document.body.style.overflow='hidden'; };
+window.closeSheet = () => { document.getElementById('backdrop').classList.remove('open'); document.body.style.overflow=''; };
+window.onBackdrop = e  => { if (e.target===document.getElementById('backdrop')) closeSheet(); };
 document.addEventListener('keydown', e => { if(e.key==='Escape') closeSheet(); });
 
-function onSubmit(e) {
+// ── SUBMIT ──────────────────────────────────────────────
+window.onSubmit = e => {
   e.preventDefault();
   const t = {
-    id: 'u'+Date.now(),
-    icon: document.querySelector('.ir:checked')?.value || '✈️',
-    tag:  document.getElementById('f-tag').value.trim(),
-    title:document.getElementById('f-title').value.trim(),
-    loc:  document.getElementById('f-loc').value.trim(),
-    body: document.getElementById('f-body').value.trim(),
-    vibes:[...document.querySelectorAll('.vc:checked')].map(x=>x.value),
-    wide: false,
+    icon:  document.querySelector('.ir:checked')?.value || '✈️',
+    tag:   document.getElementById('f-tag').value.trim(),
+    title: document.getElementById('f-title').value.trim(),
+    loc:   document.getElementById('f-loc').value.trim(),
+    body:  document.getElementById('f-body').value.trim(),
+    vibes: [...document.querySelectorAll('.vc:checked')].map(x => x.value),
+    createdAt: Date.now(),
   };
-  trips.push(t);
-  save('t26-trips', trips);
-  render();
+  push(ref(db, 'trips'), t);
   closeSheet();
   e.target.reset();
-  setTimeout(()=>{
-    document.querySelectorAll('.card')[trips.length-1]?.scrollIntoView({behavior:'smooth',block:'center'});
-  }, 80);
-}
+};
 
-render();
+// ── FIREBASE LISTENERS (real-time) ──────────────────────
+// seed defaults if DB is empty
+onValue(ref(db, 'trips'), snap => {
+  if (!snap.exists()) {
+    DEFAULTS.forEach(d => set(ref(db, 'trips/' + d.id), { icon:d.icon, tag:d.tag, title:d.title, loc:d.loc, body:d.body, vibes:d.vibes, createdAt:0 }));
+    return;
+  }
+  const data = snap.val();
+  trips = Object.entries(data)
+    .map(([id, v]) => ({ id, ...v }))
+    .sort((a, b) => a.createdAt - b.createdAt);
+  render();
+});
+
+onValue(ref(db, 'likes'), snap => {
+  likeCounts = snap.exists() ? snap.val() : {};
+  render();
+});
 </script>
 </body>
 </html>
