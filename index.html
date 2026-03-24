@@ -159,8 +159,6 @@
   .card:nth-child(5) { animation-delay: .48s; }
   .card:nth-child(n+6) { animation-delay: .54s; }
 
-  .card-wide { grid-column: span 2; }
-
   .card-emoji {
     font-size: 36px;
     line-height: 1;
@@ -192,8 +190,6 @@
     color: var(--ink);
   }
 
-  .card-wide .card-title { font-size: 23px; }
-
   .card-location {
     font-size: 12px;
     color: var(--muted);
@@ -209,8 +205,6 @@
     letter-spacing: -.1px;
     flex: 1;
   }
-
-  .card-wide .card-body { max-width: 480px; }
 
   .card-pills {
     display: flex;
@@ -558,12 +552,10 @@
   /* ── RESPONSIVE ── */
   @media (max-width: 760px) {
     .grid { grid-template-columns: 1fr 1fr; gap: 12px; }
-    .card-wide { grid-column: span 2; }
   }
 
   @media (max-width: 520px) {
     .grid { grid-template-columns: 1fr; gap: 12px; }
-    .card-wide { grid-column: span 1; }
     .hero { padding: 40px 20px 32px; }
     .grid-wrap, .add-wrap { padding-left: 20px; padding-right: 20px; }
     .two-col { grid-template-columns: 1fr; }
@@ -691,7 +683,7 @@ function render() {
     const n    = likes[t.id] || 0;
     const liked = myLikes.includes(t.id);
     const c = document.createElement('div');
-    c.className = 'card' + (t.wide ? ' card-wide' : '');
+    c.className = 'card';
     c.style.animationDelay = (.18 + i * .06) + 's';
     c.innerHTML = `
       <span class="card-emoji">${t.icon}</span>
