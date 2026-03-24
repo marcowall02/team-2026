@@ -394,6 +394,23 @@ body {
 .like-btn .h { font-size: 14px; display: inline-block; transition: transform .15s; }
 .like-btn.liked .h { transform: scale(1.2); }
 
+.del-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--muted);
+  padding: 5px;
+  border-radius: 8px;
+  transition: color .15s, background .15s;
+  opacity: 0;
+  transition: opacity .2s, color .15s, background .15s;
+}
+.card:hover .del-btn { opacity: 1; }
+.del-btn:hover { color: #dc2626; background: rgba(220,38,38,.08); }
+
 @keyframes pop {
   0%   { transform: scale(1); }
   40%  { transform: scale(1.5); }
@@ -809,7 +826,7 @@ footer {
 <!-- FIREBASE -->
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getDatabase, ref, onValue, push, set, runTransaction } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+import { getDatabase, ref, onValue, push, set, runTransaction, remove } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDJ9-KjHYuYJSxDp0Jw2OrSB_SmUmG7CsE",
@@ -857,15 +874,25 @@ function render() {
       <div class="card-foot">
         <button class="like-btn ${liked?'liked':''}" data-id="${t.id}">
           <span class="h">${liked?'♥':'♡'}</span>
-          <span>${n > 0 ? n + ' ' : ''}${liked ? 'Gefällt mir' : 'Gefällt mir'}</span>
+          <span>${n > 0 ? n + ' ' : ''}Gefällt mir</span>
+        </button>
+        <button class="del-btn" data-id="${t.id}" title="Löschen">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
         </button>
       </div>`;
     c.querySelector('.like-btn').addEventListener('click', () => toggleLike(t.id));
+    c.querySelector('.del-btn').addEventListener('click', () => deleteTrip(t.id));
     g.appendChild(c);
   });
   const label = trips.length + ' Vorschlag' + (trips.length !== 1 ? 'e' : '');
   document.getElementById('nav-count').textContent = label;
   document.getElementById('section-count').textContent = label;
+}
+
+function deleteTrip(id) {
+  if (!confirm('Diesen Vorschlag wirklich löschen?')) return;
+  remove(ref(db, 'trips/' + id));
+  remove(ref(db, 'likes/' + id));
 }
 
 function toggleLike(id) {
